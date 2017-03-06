@@ -1,0 +1,82 @@
+{
+  "name": "api-clients/psr7-http-status-exceptions",
+  "description": "PSR-7 Response wrapping exceptions",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Cees-Jan Kiewiet",
+      "email": "ceesjank@gmail.com"
+    }
+  ],
+  "require": {
+    "php": "^7.0",
+    "api-clients/middleware": "^2.0",
+    "psr/http-message": "^1.0"
+  },
+  "require-dev": {
+    "api-clients/test-utilities": "^3.0.1",
+    "ringcentral/psr7": "^1.2"
+  },
+  "autoload": {
+    "psr-4": {
+      "ApiClients\\Tools\\Psr7\\HttpStatusExceptions\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "ApiClients\\Tests\\Tools\\Psr7\\HttpStatusExceptions\\": "tests/"
+    }
+  },
+  "config": {
+    "sort-packages": true
+  },
+  "scripts": {
+    "ensure-installed": "composer install --ansi -n -q",
+    "cs": [
+      "@ensure-installed",
+      "phpcs --standard=PSR2 src/"
+    ],
+    "unit": [
+      "@ensure-installed",
+      "phpunit --colors=always -c phpunit.xml.dist"
+    ],
+    "unit-coverage": [
+      "@ensure-installed",
+      "phpunit --colors=always -c phpunit.xml.dist --coverage-text --coverage-html covHtml --coverage-clover ./build/logs/clover.xml"
+    ],
+    "lint-php": [
+      "@ensure-installed",
+      "parallel-lint --exclude vendor ."
+    ],
+    "qa-all": [
+      "@lint-php",
+      "@cs",
+      "@unit"
+    ],
+    "qa-all-coverage": [
+      "@lint-php",
+      "@cs",
+      "@unit-coverage"
+    ],
+    "qa-windows": [
+      "@lint-php",
+      "@cs",
+      "@unit"
+    ],
+    "qa-ci": [
+      "@qa-all"
+    ],
+    "qa-ci-coverage": [
+      "@qa-all-coverage"
+    ],
+    "qa-ci-windows": [
+      "@qa-windows"
+    ],
+    "qa-contrib": [
+      "@qa-all"
+    ],
+    "ci-coverage": [
+      "if [ -f ./build/logs/clover.xml ]; then wget https://scrutinizer-ci.com/ocular.phar && php ocular.phar code-coverage:upload --format=php-clover ./build/logs/clover.xml; fi"
+    ]
+  }
+}
