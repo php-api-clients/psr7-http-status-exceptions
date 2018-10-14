@@ -2,23 +2,21 @@
 
 namespace ApiClients\Tools\Psr7\HttpStatusExceptions;
 
-use ApiClients\Tools\Psr7\HttpStatusExceptions\Unofficial;
 use Exception as CoreException;
 use Psr\Http\Message\ResponseInterface;
-use function React\Promise\reject;
 
 final class ExceptionFactory
 {
     const STATUS_CODE_EXCEPTION_MAP = [
         /**
-         * 1xx codes
+         * 1xx codes.
          */
         100 => ContinueException::class,
         101 => SwitchingProtocolsException::class,
         102 => ProcessingException::class,
 
         /**
-         * 2xx codes
+         * 2xx codes.
          */
         200 => OKException::class,
         201 => CreatedException::class,
@@ -32,7 +30,7 @@ final class ExceptionFactory
         226 => IMUsedException::class,
 
         /**
-         * 3xx codes
+         * 3xx codes.
          */
         300 => MultiChoicesException::class,
         301 => MovedPermanentlyException::class,
@@ -45,7 +43,7 @@ final class ExceptionFactory
         308 => PermanentRedirectException::class,
 
         /**
-         * 4xx codes
+         * 4xx codes.
          */
         400 => BadRequestException::class,
         401 => UnauthorizedException::class,
@@ -77,7 +75,7 @@ final class ExceptionFactory
         451 => UnavailableForLegalReasonsException::class,
 
         /**
-         * 5xx codes
+         * 5xx codes.
          */
         500 => InternalServerErrorException::class,
         501 => NotImplementedException::class,
@@ -92,7 +90,7 @@ final class ExceptionFactory
         511 => NetworkAuthenticationRequiredException::class,
 
         /**
-         * IIS (Unofficial)
+         * IIS (Unofficial).
          *
          * Excluding the 451 as it conflicts with the official 451 code.
          */
@@ -100,7 +98,7 @@ final class ExceptionFactory
         449 => Unofficial\IIS\RetryWithException::class,
 
         /**
-         * Cloudflare (Unofficial)
+         * Cloudflare (Unofficial).
          */
         520 => Unofficial\Cloudflare\UnknownErrorException::class,
         521 => Unofficial\Cloudflare\WebServerIsDownException::class,
@@ -115,6 +113,7 @@ final class ExceptionFactory
     public static function create(ResponseInterface $response, CoreException $previousException)
     {
         $exception = static::STATUS_CODE_EXCEPTION_MAP[$response->getStatusCode()];
+
         return $exception::create($response, $previousException);
     }
 }
