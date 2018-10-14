@@ -13,20 +13,21 @@ abstract class AbstractException extends Exception
     private $response;
 
     /**
-     * @param ResponseInterface $response
-     * @return AbstractException
-     */
-    protected function setResponse(ResponseInterface $response): AbstractException
-    {
-        $this->response = $response;
-        return $this;
-    }
-
-    /**
      * @return ResponseInterface
      */
     public function getResponse(): ResponseInterface
     {
         return $this->response;
+    }
+
+    /**
+     * @param  ResponseInterface $response
+     * @return AbstractException
+     */
+    protected function setResponse(ResponseInterface $response): AbstractException
+    {
+        $this->response = $response;
+
+        return $this;
     }
 }
