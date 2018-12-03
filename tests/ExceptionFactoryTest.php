@@ -8,6 +8,9 @@ use Exception as CoreException;
 use Psr\Http\Message\ResponseInterface;
 use RingCentral\Psr7\Response;
 
+/**
+ * @internal
+ */
 final class ExceptionFactoryTest extends TestCase
 {
     public function provideExceptions()
@@ -26,14 +29,14 @@ final class ExceptionFactoryTest extends TestCase
         ResponseInterface $response,
         CoreException $previousException,
         CoreException $expectedException
-    ) {
+    ): void {
         /** @var HttpStatusExceptions\AbstractException $result */
         $result = HttpStatusExceptions\ExceptionFactory::create($response, $previousException);
 
         self::assertEquals($expectedException, $result);
         self::assertEquals($previousException, $result->getPrevious());
         self::assertEquals($code, $result->getCode());
-        self::assertEquals($exception, get_class($result));
+        self::assertEquals($exception, \get_class($result));
         self::assertInstanceOf(ResponseInterface::class, $result->getResponse());
         self::assertEquals($response, $result->getResponse());
     }
